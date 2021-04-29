@@ -13,18 +13,23 @@ public class earAnim : MonoBehaviour
     private float timeLength = .25f;
     private float timeCurrent = 0;
 
+    private DogController dog;
+
     public bool isAnimating
     {
         get
-        {
+        {            
             return (timeCurrent < timeLength);
         }
     }
+
+    public Transform earSave;
 
     // Start is called before the first frame update
     void Start()
     {
         startingPos = transform.localPosition;
+        dog = GetComponentInParent<DogController>();
     }
 
     // Update is called once per frame
@@ -36,6 +41,7 @@ public class earAnim : MonoBehaviour
         }
         if (isAnimating) // anim is playing
         {
+            if (dog.state != DogController.States.Idle) return;
             timeCurrent += Time.deltaTime;
 
             float p = timeCurrent / timeLength;
@@ -50,7 +56,8 @@ public class earAnim : MonoBehaviour
 
         } else
         {
-            transform.localPosition = startingPos;
+            transform.position = earSave.position;
+            startingPos = transform.localPosition;
         }
         
         if (wiggleTimer > 0) wiggleTimer -= Time.deltaTime;

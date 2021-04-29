@@ -14,10 +14,10 @@ public class stickyFoot : MonoBehaviour
     private Quaternion startingRotation;
 
     private Vector3 prevPlantedPosition;
-    private Quaternion prevPlantedRotation;
+    private Quaternion prevPlantedRotation = Quaternion.identity;
 
     private Vector3 plantedPosition;
-    private Quaternion plantedRotation;
+    private Quaternion plantedRotation = Quaternion.identity;
 
     private float timeLength = .25f;
     private float timeCurrent = 0;
@@ -57,7 +57,7 @@ public class stickyFoot : MonoBehaviour
 
             transform.position = finalPosition;
 
-            transform.rotation = AnimMath.Lerp(prevPlantedRotation, plantedRotation, p);
+            transform.rotation = AnimMath.Lerp(prevPlantedRotation, plantedRotation * Quaternion.Euler(0,90,0), p);
 
             Vector3 vFromCenter = transform.position - transform.parent.position;
 

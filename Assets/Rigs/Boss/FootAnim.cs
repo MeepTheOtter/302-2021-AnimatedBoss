@@ -57,6 +57,9 @@ public class FootAnim : MonoBehaviour
             finalPos.y += verticalMovement.Evaluate(p) * 2;
 
             transform.position = finalPos;
+            plantedRotation *= new Quaternion(0, dogController.turnRotation.y * Time.deltaTime, 0, 0);
+            
+            //print(dogController.turnRotation.y * Time.deltaTime);
             transform.rotation = AnimMath.Lerp(prevPlantedRotation, plantedRotation, p);
 
         } else // anim is not playing
@@ -83,8 +86,13 @@ public class FootAnim : MonoBehaviour
             //{
             //if (vBetween.sqrMagnitude < halfThreshold * halfThreshold) return false;
             //}     
-
             if (dogController.isTurning)
+            {
+                threshold = .25f;
+                if (vBetween.sqrMagnitude < threshold * threshold) return false;
+
+            }
+            else if (dogController.isSideStepping )
             {
                 threshold = .5f; 
                 if (Mathf.Abs(vBetweenXAxis) < threshold && vBetween.sqrMagnitude < threshold * threshold) return false;
