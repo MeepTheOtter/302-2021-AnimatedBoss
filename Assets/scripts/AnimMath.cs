@@ -18,7 +18,7 @@ public static class AnimMath {
         return (max - min) * p + min;
     }
 
-    public static Quaternion Lerp(Quaternion min, Quaternion max, float p, bool allowExtrapolation = true) {
+    public static Quaternion Lerp(Quaternion min, Quaternion max, float p = .05f, bool allowExtrapolation = true) {
         if (!allowExtrapolation) {
             if (p < 0) return min;
             if (p > 1) return max;
