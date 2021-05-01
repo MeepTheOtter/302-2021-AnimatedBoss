@@ -64,7 +64,7 @@ public class DogController : MonoBehaviour
     public float turnSpeed = 2;
     public float distAway = 20;
 
-    public float dampen = .5f;
+    public float dampen = .3f;
 
     //changing this quaternion will rotate the dog & the feet correctly
     public Vector3 turnRotation = new Vector3(0, 0, 0);
@@ -167,7 +167,7 @@ public class DogController : MonoBehaviour
             }
 
 
-            print(playerIsInZone);
+            //print(playerIsInZone);
 
 
 
@@ -211,6 +211,7 @@ public class DogController : MonoBehaviour
         //else isSideStepping = false;
         //print(isTurning);
         if (dis < 5) dampen = .1f;
+        else dampen = .3f;
         Vector3 velocity = agent.velocity * dampen;
         //print(velocity);        
 

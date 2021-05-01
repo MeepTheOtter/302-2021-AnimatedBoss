@@ -8,5 +8,10 @@ all anims are there
 player can take 5 bites from dog before he dies
 
 
-Player, when not moving, will go to anim state + play idle animation. When he dies, he will go to death state + death anim will play. 
-player can attack the dog, takes 5 hits to take him down.
+Player, when not moving, will go to anim state + play idle animation. When he dies, he will go to death state + death anim will play. when walking, his walk anim will play
+player can attack the dog, takes 5 hits to take him down. When the player attacks the attack anim will play
+
+
+
+
+my main focus was on the dog anims and getting them near perfect, so that's why the player anims look more robotic and simple.

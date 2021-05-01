@@ -48,6 +48,32 @@ public class hipMovement : MonoBehaviour
         else if (player.state == PlayerController.States.Death)
         {
             transform.localRotation = Quaternion.Euler(90, 0, 0);
+        } 
+        else if (player.state == PlayerController.States.Walk)
+        {
+            switchTimer -= Time.deltaTime;
+            if (switchTimer <= 0)
+            {
+                switchTimer = 1;
+                goLeft = !goLeft;
+                transform.localRotation = startPos;
+            }
+
+            if (goLeft == true)
+            {
+                Quaternion targetRot = Quaternion.Euler(0, transform.localRotation.eulerAngles.y - mult * 20 *  Time.deltaTime, 0);
+                transform.localRotation = targetRot;
+            }
+            else
+            {
+                Quaternion targetRot = Quaternion.Euler(0, transform.localRotation.eulerAngles.y + mult  * 20 * Time.deltaTime, 0);
+                transform.localRotation = targetRot;
+            }
+        }
+        else if (player.state == PlayerController.States.Attack)
+        {
+            Quaternion targetRot = Quaternion.Euler(0, transform.localRotation.eulerAngles.y + mult * 2000 * Time.deltaTime, 0);
+            transform.localRotation = targetRot;
         }
 
         else

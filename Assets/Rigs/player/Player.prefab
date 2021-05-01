@@ -1144,6 +1144,7 @@ MonoBehaviour:
   dog: {fileID: 0}
   walkSpeed: 5
   idleTimer: 0
+  attackTimer: 0
   gravityMult: 10
   jumpMult: 5
   state: 0

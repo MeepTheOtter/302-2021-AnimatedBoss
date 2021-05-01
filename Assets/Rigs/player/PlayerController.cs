@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     
     public float idleTimer = 0;
 
+    public float attackTimer = 0;
     
     bool isShiftHeld = false;
 
@@ -68,6 +69,14 @@ public class PlayerController : MonoBehaviour
 
             }
 
+
+            if (attackTimer > 0)
+            {
+                attackTimer -= Time.deltaTime; 
+                
+            }
+            if (attackTimer <= 0) state = States.Idle;
+
             movePlayer();
             if (isGrounded) wiggleLegs(); // idle + walk
 
@@ -100,7 +109,7 @@ public class PlayerController : MonoBehaviour
 
         float wave = Mathf.Sin(Time.time * speed) * degrees;
 
-        state = States.Idle;
+        
 
         if (isShiftHeld)
         {
@@ -131,9 +140,16 @@ public class PlayerController : MonoBehaviour
             // turn to face the correct direction...
             float camYaw = cam.transform.eulerAngles.y;
             transform.rotation = AnimMath.Slide(transform.rotation, Quaternion.Euler(0, camYaw, 0), .02f);
-            state = States.Walk;
+            
         }
-        else state = States.Idle;
+        if (isTryingToMove && state != States.Attack)
+        {
+            state = States.Walk;
+        } 
+        if(!isTryingToMove && state != States.Attack)
+        {
+            state = States.Idle;
+        }
 
         
 
@@ -170,6 +186,8 @@ public class PlayerController : MonoBehaviour
         bool wantsToAttack = Input.GetButtonDown("Fire1");
 
         if (!wantsToAttack) return;
+        attackTimer = .5f;
+        state = States.Attack;
 
         if (Vector3.Distance(transform.position, dog.transform.position) > 20) return;
 
@@ -181,8 +199,10 @@ public class PlayerController : MonoBehaviour
 
         HealthSystem health = dog.GetComponent<HealthSystem>();
 
-        if (health.iframes > 0) return;
 
+
+        if (health.iframes > 0) return;
+        
         health.takeDamage(20, 0);
     }
 }
