@@ -22,9 +22,10 @@ public class HitZone : MonoBehaviour
     {
         PlayerController player = other.GetComponent<PlayerController>();
         HealthSystem health = other.GetComponent<HealthSystem>();
-        if (player != null && health != null && dog.state == DogController.States.Attack)
+        if (player != null && health != null)
         {
-            health.takeDamage(20, 5);
+            dog.playerIsInZone = true;
+            //health.takeDamage(20, 5);
             //print("owwwww");
         }
     }

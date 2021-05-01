@@ -14,8 +14,41 @@ public class DogController : MonoBehaviour
         Death,
     }
 
+    public GameObject jawBone;
+    private Quaternion jawStartRot;
+
+    private float timeLengthDown = .25f;
+    private float timeCurrentDown = .25f;
+
+    public bool isAnimatingDown
+    {
+        get
+        {
+            return (timeCurrentDown < timeLengthDown);
+        }
+    }
+
+    private float timeLengthUp = .25f;
+    private float timeCurrentUp = .25f;
+    private bool canAnimateUp = false;
+
+    public bool isAnimatingUp
+    {
+        get
+        {
+            return (timeCurrentUp < timeLengthUp);
+        }
+    }
+
+    public float idleTimer = 5;
+
     private NavMeshAgent agent;
     public Transform player;
+
+    public PlayerController playerController;
+    public HealthSystem playerHealth;
+    public bool playerIsInZone = false;
+    
 
     public Transform groundRing;
     CharacterController pawn; 
@@ -47,6 +80,9 @@ public class DogController : MonoBehaviour
         agent.updateRotation = false;
         state = States.Idle;
         pawn = GetComponent<CharacterController>();
+        jawStartRot = jawBone.transform.localRotation;
+        playerController = player.GetComponent<PlayerController>();
+        playerHealth = player.GetComponent<HealthSystem>();
     }
 
     private void Update()
@@ -78,6 +114,65 @@ public class DogController : MonoBehaviour
             //Quaternion.RotateTowards(transform.rotation, turnRotation, 15);
             //AnimMath.Lerp(transform.rotation, turnRotation, .001f);
             transform.Rotate(0, 0, turnRotation.y);
+
+            if (idleTimer > 0) idleTimer -= Time.deltaTime;
+
+            if (isAnimatingDown) timeCurrentDown += Time.deltaTime;
+            if (isAnimatingUp) timeCurrentUp += Time.deltaTime;
+
+
+            if (state == States.Idle && idleTimer <= 0)
+            {
+                if (!isAnimatingDown)
+                {
+                    timeCurrentDown = 0;
+                    //print("startAnim");
+
+                }
+            }
+
+            if (isAnimatingDown)
+            {
+
+                float p = timeCurrentDown / timeLengthDown;
+
+                Quaternion targetRot = Quaternion.Euler(0, 0, -105);
+
+                jawBone.transform.localRotation = AnimMath.Lerp(jawBone.transform.localRotation, targetRot, p);
+                canAnimateUp = true;
+            }
+
+            if (canAnimateUp && !isAnimatingDown)
+            {
+                timeCurrentUp = 0;
+                canAnimateUp = false;
+                state = States.Attack;
+                playerHealth.takeDamage(20, 5);
+            }
+
+            if (isAnimatingUp)
+            {
+                float p = timeCurrentUp / timeLengthUp;
+
+                Quaternion targetRot = Quaternion.Euler(0, 0, -60);
+
+                jawBone.transform.localRotation = AnimMath.Lerp(jawBone.transform.localRotation, targetRot, p);
+                
+            }
+
+            if (!isAnimatingUp && !isAnimatingDown)
+            {
+                jawBone.transform.localRotation = AnimMath.Slide(jawBone.transform.localRotation, jawStartRot, .001f);
+                if (state == States.Attack) state = States.Idle;
+            }
+
+
+            print(playerIsInZone);
+
+
+
+            if (idleTimer < 0) idleTimer = 5;
+            
         }
 
         
@@ -100,8 +195,10 @@ public class DogController : MonoBehaviour
 
         }
 
+        if (dis > distAway) playerIsInZone = false;
 
-        print(dampen);
+
+        //print(dampen);
 
 
 
