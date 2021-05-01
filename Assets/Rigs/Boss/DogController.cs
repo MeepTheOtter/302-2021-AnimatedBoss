@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.AI;
 using UnityEngine;
 
 public class DogController : MonoBehaviour
@@ -13,6 +14,9 @@ public class DogController : MonoBehaviour
         Death,
     }
 
+    private NavMeshAgent agent;
+    public Transform player;
+
     public Transform groundRing;
     CharacterController pawn; 
     public bool isSideStepping = false;
@@ -25,6 +29,9 @@ public class DogController : MonoBehaviour
     public FootAnim backRight;
 
     public float turnSpeed = 2;
+    public float distAway = 20;
+
+    public float dampen = .5f;
 
     //changing this quaternion will rotate the dog & the feet correctly
     public Vector3 turnRotation = new Vector3(0, 0, 0);
@@ -35,6 +42,9 @@ public class DogController : MonoBehaviour
 
     private void Start()
     {
+        agent = GetComponentInParent<NavMeshAgent>();
+
+        agent.updateRotation = false;
         state = States.Idle;
         pawn = GetComponent<CharacterController>();
     }
@@ -43,7 +53,7 @@ public class DogController : MonoBehaviour
     {
         if (state != States.Death)
         {
-            //Move();
+            Move();
 
             if (moveLeftFoot && !frontRight.isAnimating)
             {
@@ -75,18 +85,39 @@ public class DogController : MonoBehaviour
 
     private void Move()
     {
-        float v = Input.GetAxisRaw("Vertical");
-        float h = Input.GetAxisRaw("Horizontal");
-        if (v != 0 || h != 0) state = States.Walk;
-        else state = States.Idle;
-        if (h != 0) isSideStepping = true;
-        else isSideStepping = false;
-        //print(isTurning);
+        float dis = Vector3.Distance(transform.position, player.transform.position);
+        //print(dis);
+        if (dis < distAway)
+        {
+            state = States.Idle;
+            agent.SetDestination(transform.position);
 
-        Vector3 velocity = transform.up * -v + transform.right * h * .2f;
+        }
+        else if (dis > distAway)
+        {
+            state = States.Walk;
+            agent.SetDestination(player.position);
+
+        }
+
+
+        print(dampen);
+
+
+
+
+        //float v = Input.GetAxisRaw("Vertical");
+        //float h = Input.GetAxisRaw("Horizontal");
+        //if (v != 0 || h != 0) state = States.Walk;
+        //else state = States.Idle;
+        //if (h != 0) isSideStepping = true;
+        //else isSideStepping = false;
+        //print(isTurning);
+        if (dis < 5) dampen = .1f;
+        Vector3 velocity = agent.velocity * dampen;
         //print(velocity);        
 
-        pawn.SimpleMove(velocity * speed);
+        //pawn.SimpleMove(velocity * speed);
 
         Vector3 localVelocity = groundRing.InverseTransformDirection(velocity);
 

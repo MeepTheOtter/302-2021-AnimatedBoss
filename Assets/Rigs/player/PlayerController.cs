@@ -163,7 +163,7 @@ public class PlayerController : MonoBehaviour
 
     void tryToAttack()
     {
-        bool wantsToAttack = Input.GetButton("Fire1");
+        bool wantsToAttack = Input.GetButtonDown("Fire1");
 
         if (!wantsToAttack) return;
 

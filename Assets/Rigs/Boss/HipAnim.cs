@@ -15,8 +15,8 @@ public class HipAnim : MonoBehaviour
     void Start()
     {
         dog = GetComponentInParent<DogController>();
-        startPos = transform.localPosition - new Vector3(0, .1f, 0); ;
-        deathPos = startPos - new Vector3(0, .3f, 0);
+        startPos = transform.localPosition - new Vector3(0, .2f, 0); ;
+        deathPos = startPos - new Vector3(0, .7f, 0);
     }
 
     // Update is called once per frame

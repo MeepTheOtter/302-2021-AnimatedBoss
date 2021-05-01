@@ -18,10 +18,19 @@ public class TurnTowards : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(Vector3.Angle(forwardVector.position - transform.position, player.transform.position - transform.position));
+        //print(Vector3.Angle(forwardVector.position - transform.position, player.transform.position - transform.position));
 
         float angle = 5;
         float wideTurnAngle = 65;
+        if(Vector3.Angle(forwardVector.position - transform.position, player.transform.position - transform.position) > 20)
+        {
+            dog.isSideStepping = true;
+            dog.dampen = .1f;
+        } else
+        {
+            dog.isSideStepping = false;
+            dog.dampen = .5f;
+        }
         if (Vector3.Angle(forwardVector.position - transform.position, player.transform.position - transform.position) < angle)
         {
             dog.turnSpeed = 0;
