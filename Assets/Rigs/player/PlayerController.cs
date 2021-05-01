@@ -57,20 +57,22 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        if (coyoteTime > 0) coyoteTime -= Time.deltaTime;
-
-        if (idleTimer > 0) idleTimer -= Time.deltaTime;
-        if (idleTimer <= 0)
+        if (state != States.Death)
         {
-            idleTimer = .6f;
-            
+            if (coyoteTime > 0) coyoteTime -= Time.deltaTime;
+
+            if (idleTimer > 0) idleTimer -= Time.deltaTime;
+            if (idleTimer <= 0)
+            {
+                idleTimer = .6f;
+
+            }
+
+            movePlayer();
+            if (isGrounded) wiggleLegs(); // idle + walk
+
+            tryToAttack();
         }
-
-        movePlayer();
-        if (isGrounded) wiggleLegs(); // idle + walk
-
-        tryToAttack();
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -98,7 +100,7 @@ public class PlayerController : MonoBehaviour
 
         float wave = Mathf.Sin(Time.time * speed) * degrees;
 
-        
+        state = States.Idle;
 
         if (isShiftHeld)
         {
@@ -129,7 +131,9 @@ public class PlayerController : MonoBehaviour
             // turn to face the correct direction...
             float camYaw = cam.transform.eulerAngles.y;
             transform.rotation = AnimMath.Slide(transform.rotation, Quaternion.Euler(0, camYaw, 0), .02f);
+            state = States.Walk;
         }
+        else state = States.Idle;
 
         
 

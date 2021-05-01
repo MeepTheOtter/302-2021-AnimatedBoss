@@ -149,11 +149,25 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 9135160957704540898, guid: 2c763a63fb7461f4ca1e502f8122f2a9, type: 3}
+      propertyPath: jawBone
+      value: 
+      objectReference: {fileID: 4221982718152210272}
+    - target: {fileID: 9135160957704540898, guid: 2c763a63fb7461f4ca1e502f8122f2a9, type: 3}
+      propertyPath: distAway
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1583717136283396727, guid: 2c763a63fb7461f4ca1e502f8122f2a9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2c763a63fb7461f4ca1e502f8122f2a9, type: 3}
 --- !u!4 &3675673564724754219 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7342958574917319451, guid: 2c763a63fb7461f4ca1e502f8122f2a9, type: 3}
+  m_PrefabInstance: {fileID: 6261675060733185072}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4221982718152210272 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7814465136296491856, guid: 2c763a63fb7461f4ca1e502f8122f2a9, type: 3}
   m_PrefabInstance: {fileID: 6261675060733185072}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &5303098431876558676 stripped

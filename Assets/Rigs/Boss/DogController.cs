@@ -115,7 +115,7 @@ public class DogController : MonoBehaviour
             //AnimMath.Lerp(transform.rotation, turnRotation, .001f);
             transform.Rotate(0, 0, turnRotation.y);
 
-            if (idleTimer > 0) idleTimer -= Time.deltaTime;
+            if (idleTimer > 0 && state == States.Idle) idleTimer -= Time.deltaTime;
 
             if (isAnimatingDown) timeCurrentDown += Time.deltaTime;
             if (isAnimatingUp) timeCurrentUp += Time.deltaTime;
@@ -147,7 +147,7 @@ public class DogController : MonoBehaviour
                 timeCurrentUp = 0;
                 canAnimateUp = false;
                 state = States.Attack;
-                playerHealth.takeDamage(20, 5);
+                if(playerIsInZone) playerHealth.takeDamage(20, 0);
             }
 
             if (isAnimatingUp)
@@ -171,7 +171,7 @@ public class DogController : MonoBehaviour
 
 
 
-            if (idleTimer < 0) idleTimer = 5;
+            if (idleTimer < 0 || state != States.Idle) idleTimer = 5;
             
         }
 
