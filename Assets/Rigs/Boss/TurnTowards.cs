@@ -22,7 +22,7 @@ public class TurnTowards : MonoBehaviour
 
         float angle = 5;
         float wideTurnAngle = 65;
-        if(Vector3.Angle(forwardVector.position - transform.position, player.transform.position - transform.position) > 20)
+        if(Vector3.Angle(forwardVector.position - transform.position, player.transform.position - transform.position) > 10)
         {
             dog.isSideStepping = true;
             dog.dampen = .1f;
