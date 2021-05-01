@@ -1,0 +1,12 @@
+Player movement - WASD
+Player melee - Left mouse button
+Player Jump - space
+Aim - mouse
+
+dog will turn towards player, walk to them, stop when close enough, and attack if in range. all states are there,
+all anims are there
+player can take 5 bites from dog before he dies
+
+
+Player, when not moving, will go to anim state + play idle animation. When he dies, he will go to death state + death anim will play. 
+player can attack the dog, takes 5 hits to take him down.
