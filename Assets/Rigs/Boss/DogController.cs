@@ -43,7 +43,7 @@ public class DogController : MonoBehaviour
     {
         if (state != States.Death)
         {
-            Move();
+            //Move();
 
             if (moveLeftFoot && !frontRight.isAnimating)
             {

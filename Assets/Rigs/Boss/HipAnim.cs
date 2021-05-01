@@ -15,7 +15,7 @@ public class HipAnim : MonoBehaviour
     void Start()
     {
         dog = GetComponentInParent<DogController>();
-        startPos = transform.localPosition;
+        startPos = transform.localPosition - new Vector3(0, .1f, 0); ;
         deathPos = startPos - new Vector3(0, .3f, 0);
     }
 
